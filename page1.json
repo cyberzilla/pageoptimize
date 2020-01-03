@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "assets": [
+              {"type":"text/javascript","src": "script1.js"},
+              {"type":"text/css","src": "style1.css"}
+            ]
+}

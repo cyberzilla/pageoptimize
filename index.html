@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Testing Asset</title>
+    <style>
+        .mainPage{
+            width: 500px;
+            height: 300px;
+            border: 1px dashed #000000;
+        }
+        .loadpage{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<a class="loadpage" id="1">Load Page 1</a> | <a class="loadpage" id="2">Load Page 2</a>
+<div id="mainPage" class="mainPage">
+
+</div>
+<script src="jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        $(".loadPage").click(function(){
+            var id = $(this).attr("id");
+            $.get("page"+id+".json",id,function (res) {
+                $.each(res.assets,function (i,item) {
+                    if(item.type==="text/javascript"){
+                        var sc = document.createElement("script");
+                        sc.type = item.type;sc.src = item.src;sc.id = "scPage"+id;
+                        if($("#scPage"+id).length===0){
+                            $("body").append(sc);
+                        }
+                    }else if(item.type==="text/css"){
+                        var lk = document.createElement("link");
+                        lk.rel="stylesheet";lk.type = item.type;lk.href = item.src;lk.id = "stPage"+id;
+                        if($("#stPage"+id).length===0){
+                            $("head").append(lk);
+                        }
+                    }else{
+                        console.log("No Module");
+                    }
+                });
+                $("#mainPage").load("page"+id+".html");
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
